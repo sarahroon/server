@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Supabase Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <h2>Submit Your Info</h2>
+
+    <form id="myForm">
+      <label for="name">Name:</label><br />
+      <input type="text" id="name" name="name" required /><br /><br />
+
+      <label for="email">Email:</label><br />
+      <input type="email" id="email" name="email" required /><br /><br />
+
+      <input type="submit" value="Submit" />
+    </form>
+
+    <script>
+      // Supabase credentials
+      const supabaseUrl = "https://jwwzkjwmddxajcabsmjx.supabase.co";
+      const supabaseKey = "sb_publishable_qD4qHE6BtYcpYNq04Jo2PA_ZuULjRQ1";
+      const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+      document
+        .getElementById("myForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault(); // Prevent default form submission
+
+          const name = document.getElementById("name").value.trim();
+          const email = document.getElementById("email").value.trim();
+
+          if (!name || !email) {
+            alert("Please fill in all fields.");
+            return;
+          }
+
+          const { data, error } = await supabase
+            .from("users")
+            .insert([{ name: name, email: email }]);
+
+          if (error) {
+            alert("Error: " + error.message);
+          } else {
+            alert("Data inserted successfully!");
+            document.getElementById("myForm").reset();
+          }
+        });
+    </script>
+  </body>
+</html>
