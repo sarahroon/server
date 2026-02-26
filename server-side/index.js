@@ -25,9 +25,14 @@ app.post("/waves", (req, res) => {
     .json({ message: `You sent me this: ${JSON.stringify(req.body)}` });
 });
 
-app.listen(8000, () => {
-  console.log(`Started listening on http://localhost:8000`);
+// Use PORT from environment, fallback to 3000 locally
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Started listening on http://localhost:${PORT}`);
 });
 
+// Example sum function
 const sum = (a, b) => a + b;
-console.log(sum("extra argument", 10));
+
+// If you intended to test with numbers:
+console.log(sum(10, 20)); // 30
